@@ -17,7 +17,7 @@
     "pg": "^8.7.3"
   },
   "scripts": {
-    "test": "mocha -r ts-node/register --timeout 20000 'tests/**/*.ts'",
+    "test": "env TS_NODE_TRANSPILE_ONLY=true mocha -r ts-node/register 'src/tests/**/*.test.ts' --exit --require src/tests/hooks.ts --timeout 60000",
     "dev": "ts-node-dev --transpile-only --no-notify --exit-child src/index.ts",
     "nexus:generate": "ts-node --transpile-only src/schema.ts",
     "prisma:generate": "prisma migrate dev --name $NAME --preview-feature",
@@ -26,11 +26,10 @@
   "devDependencies": {
     "@types/graphql-iso-date": "^3.4.0",
     "@types/graphql-upload": "^8.0.11",
-    "@types/jest": "^27.5.1",
     "@types/pg": "^8.6.5",
     "@types/uuid": "^8.3.4",
+    "get-port": "5.1.1",
     "graphql-request": "^4.2.0",
-    "jest": "^28.1.0",
     "prisma": "^3.14.0",
     "ts-node-dev": "^1.1.8"
   }
