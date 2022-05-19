@@ -45,6 +45,10 @@ export interface NexusGenInputs {
     price: number; // Float!
     title: string; // String!
   }
+  UsersProfileInput: { // input type
+    email?: string | null; // String
+    name?: string | null; // String
+  }
 }
 
 export interface NexusGenEnums {
@@ -130,6 +134,7 @@ export interface NexusGenFieldTypes {
     ConfirmJob: NexusGenRootTypes['JobsData']; // JobsData!
     CreateJobsData: NexusGenRootTypes['JobsData']; // JobsData!
     CreateUserByWallet: NexusGenRootTypes['UsersProfile']; // UsersProfile!
+    UpdateUserProfile: NexusGenRootTypes['UsersProfile'] | null; // UsersProfile
   }
   Query: { // field return type
     GetUserByID: NexusGenRootTypes['UsersProfile'] | null; // UsersProfile
@@ -172,6 +177,7 @@ export interface NexusGenFieldTypeNames {
     ConfirmJob: 'JobsData'
     CreateJobsData: 'JobsData'
     CreateUserByWallet: 'UsersProfile'
+    UpdateUserProfile: 'UsersProfile'
   }
   Query: { // field return type name
     GetUserByID: 'UsersProfile'
@@ -197,6 +203,10 @@ export interface NexusGenArgTypes {
     }
     CreateUserByWallet: { // args
       wallet: string; // String!
+    }
+    UpdateUserProfile: { // args
+      id: string; // String!
+      input: NexusGenInputs['UsersProfileInput']; // UsersProfileInput!
     }
   }
   Query: {

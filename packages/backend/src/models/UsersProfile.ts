@@ -1,10 +1,27 @@
-import { objectType, extendType, nonNull, stringArg } from "nexus";
+import { Prisma } from "@prisma/client";
+import { id } from "ethers/lib/utils";
+import {
+  objectType,
+  extendType,
+  nonNull,
+  stringArg,
+  inputObjectType,
+  arg,
+} from "nexus";
 
 export const UsersProfile = objectType({
   name: "UsersProfile",
   definition(t) {
     t.nonNull.id("id");
     t.nonNull.string("wallet");
+    t.nullable.string("name");
+    t.nullable.string("email");
+  },
+});
+
+export const UsersProfileInput = inputObjectType({
+  name: "UsersProfileInput",
+  definition(t) {
     t.nullable.string("name");
     t.nullable.string("email");
   },
@@ -53,6 +70,33 @@ export const UserProfileQuery = extendType({
             wallet: args.wallet,
           },
         });
+      },
+    });
+
+    t.nullable.field("UpdateUserProfile", {
+      type: "UsersProfile",
+      args: {
+        id: nonNull(stringArg()),
+        input: nonNull(arg({ type: "UsersProfileInput" })),
+      },
+      async resolve(_, args, context) {
+        const { id, input } = args;
+        try {
+          const res = await context.db.usersProfile.update({
+            where: {
+              id,
+            },
+            data: {
+              ...input,
+            },
+          });
+          return res;
+        } catch (error) {
+          if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code == "P2025") return null;
+          }
+        }
+        return null;
       },
     });
   },
