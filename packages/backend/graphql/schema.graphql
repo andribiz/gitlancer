@@ -2,20 +2,85 @@
 ### Do not make changes to this file directly
 
 
+enum ApplicantState {
+  ACCEPTED
+  PROGRESS
+  REJECTED
+}
+
+enum BiddingType {
+  OPEN_BID
+  OPEN_FIX
+  VERIFIED_BID
+  VERIFIED_FIX
+  WHITELIST_BID
+  WHITELIST_FIX
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+enum JobState {
+  DRAFT
+  FINISHED
+  PROGRESS
+  TENDER
+}
+
+type JobsApplicant {
+  bidPrice: Float!
+  job: JobsData
+  jobID: String!
+  state: ApplicantState!
+  userID: String!
+}
+
+type JobsData {
+  applicants: [JobsApplicant!]
+  biddingType: BiddingType!
+  body: String!
+  contractAddress: String
+  createdAt: DateTime!
+  creator: UsersProfile!
+  creatorID: String!
+  finishedAt: DateTime
+  id: ID!
+  link: String
+  price: Float!
+  state: JobState!
+  title: String!
+}
+
+input JobsDataInput {
+  biddingType: BiddingType!
+  body: String!
+  creatorID: String!
+  link: String
+  price: Float!
+  title: String!
+}
+
 type Mutation {
-  CreateUser(wallet: String!): Users!
-  UpdateUser(email: String, name: String!, wallet: String!): Users
+  ConfirmJob(id: String!): JobsData!
+  CreateJobsData(input: JobsDataInput!): JobsData!
+  CreateUserByWallet(wallet: String!): UsersProfile!
 }
 
 type Query {
-  GetUserByWallet(wallet: String!): Users
+  GetUserByID(id: String!): UsersProfile
+  GetUserByWallet(wallet: String!): UsersProfile
+  SearchJobsData(query: String): [JobsData]
+  SearchJobsDataID(id: String!): JobsData
 }
 
 """The `Upload` scalar type represents a file upload."""
 scalar Upload
 
-type Users {
+type UsersProfile {
   email: String
+  id: ID!
   name: String
-  wallet: ID!
+  wallet: String!
 }

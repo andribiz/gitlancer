@@ -1,10 +1,10 @@
 import { makeSchema } from "nexus";
 import { join } from "path";
 import * as types from "./models";
-import { Upload } from "./scalars";
+import { Upload, DateTime } from "./scalars";
 
 export const schema = makeSchema({
-  types: [types, Upload],
+  types: [types, Upload, DateTime],
   outputs: {
     schema: join(process.cwd(), "graphql/schema.graphql"),
     typegen: join(process.cwd(), "src/nexus-typegen.ts"),

@@ -12,6 +12,10 @@ declare global {
      * The `Upload` scalar type represents a file upload.
      */
     upload<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "Upload";
+    /**
+     * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+     */
+    datetime<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "DateTime";
   }
 }
 declare global {
@@ -20,6 +24,10 @@ declare global {
      * The `Upload` scalar type represents a file upload.
      */
     upload<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "Upload";
+    /**
+     * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+     */
+    datetime<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "DateTime";
   }
 }
 
@@ -29,9 +37,20 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  JobsDataInput: { // input type
+    biddingType: NexusGenEnums['BiddingType']; // BiddingType!
+    body: string; // String!
+    creatorID: string; // String!
+    link?: string | null; // String
+    price: number; // Float!
+    title: string; // String!
+  }
 }
 
 export interface NexusGenEnums {
+  ApplicantState: "ACCEPTED" | "PROGRESS" | "REJECTED"
+  BiddingType: "OPEN_BID" | "OPEN_FIX" | "VERIFIED_BID" | "VERIFIED_FIX" | "WHITELIST_BID" | "WHITELIST_FIX"
+  JobState: "DRAFT" | "FINISHED" | "PROGRESS" | "TENDER"
 }
 
 export interface NexusGenScalars {
@@ -40,16 +59,37 @@ export interface NexusGenScalars {
   Float: number
   Boolean: boolean
   ID: string
+  DateTime: any
   Upload: BackingScalars.Upload
 }
 
 export interface NexusGenObjects {
+  JobsApplicant: { // root type
+    bidPrice: number; // Float!
+    jobID: string; // String!
+    state: NexusGenEnums['ApplicantState']; // ApplicantState!
+    userID: string; // String!
+  }
+  JobsData: { // root type
+    biddingType: NexusGenEnums['BiddingType']; // BiddingType!
+    body: string; // String!
+    contractAddress?: string | null; // String
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    creatorID: string; // String!
+    finishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    id: string; // ID!
+    link?: string | null; // String
+    price: number; // Float!
+    state: NexusGenEnums['JobState']; // JobState!
+    title: string; // String!
+  }
   Mutation: {};
   Query: {};
-  Users: { // root type
+  UsersProfile: { // root type
     email?: string | null; // String
+    id: string; // ID!
     name?: string | null; // String
-    wallet: string; // ID!
+    wallet: string; // String!
   }
 }
 
@@ -61,52 +101,116 @@ export interface NexusGenUnions {
 
 export type NexusGenRootTypes = NexusGenObjects
 
-export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
+export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  JobsApplicant: { // field return type
+    bidPrice: number; // Float!
+    job: NexusGenRootTypes['JobsData'] | null; // JobsData
+    jobID: string; // String!
+    state: NexusGenEnums['ApplicantState']; // ApplicantState!
+    userID: string; // String!
+  }
+  JobsData: { // field return type
+    applicants: NexusGenRootTypes['JobsApplicant'][] | null; // [JobsApplicant!]
+    biddingType: NexusGenEnums['BiddingType']; // BiddingType!
+    body: string; // String!
+    contractAddress: string | null; // String
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    creator: NexusGenRootTypes['UsersProfile']; // UsersProfile!
+    creatorID: string; // String!
+    finishedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    id: string; // ID!
+    link: string | null; // String
+    price: number; // Float!
+    state: NexusGenEnums['JobState']; // JobState!
+    title: string; // String!
+  }
   Mutation: { // field return type
-    CreateUser: NexusGenRootTypes['Users']; // Users!
-    UpdateUser: NexusGenRootTypes['Users'] | null; // Users
+    ConfirmJob: NexusGenRootTypes['JobsData']; // JobsData!
+    CreateJobsData: NexusGenRootTypes['JobsData']; // JobsData!
+    CreateUserByWallet: NexusGenRootTypes['UsersProfile']; // UsersProfile!
   }
   Query: { // field return type
-    GetUserByWallet: NexusGenRootTypes['Users'] | null; // Users
+    GetUserByID: NexusGenRootTypes['UsersProfile'] | null; // UsersProfile
+    GetUserByWallet: NexusGenRootTypes['UsersProfile'] | null; // UsersProfile
+    SearchJobsData: Array<NexusGenRootTypes['JobsData'] | null> | null; // [JobsData]
+    SearchJobsDataID: NexusGenRootTypes['JobsData'] | null; // JobsData
   }
-  Users: { // field return type
+  UsersProfile: { // field return type
     email: string | null; // String
+    id: string; // ID!
     name: string | null; // String
-    wallet: string; // ID!
+    wallet: string; // String!
   }
 }
 
 export interface NexusGenFieldTypeNames {
+  JobsApplicant: { // field return type name
+    bidPrice: 'Float'
+    job: 'JobsData'
+    jobID: 'String'
+    state: 'ApplicantState'
+    userID: 'String'
+  }
+  JobsData: { // field return type name
+    applicants: 'JobsApplicant'
+    biddingType: 'BiddingType'
+    body: 'String'
+    contractAddress: 'String'
+    createdAt: 'DateTime'
+    creator: 'UsersProfile'
+    creatorID: 'String'
+    finishedAt: 'DateTime'
+    id: 'ID'
+    link: 'String'
+    price: 'Float'
+    state: 'JobState'
+    title: 'String'
+  }
   Mutation: { // field return type name
-    CreateUser: 'Users'
-    UpdateUser: 'Users'
+    ConfirmJob: 'JobsData'
+    CreateJobsData: 'JobsData'
+    CreateUserByWallet: 'UsersProfile'
   }
   Query: { // field return type name
-    GetUserByWallet: 'Users'
+    GetUserByID: 'UsersProfile'
+    GetUserByWallet: 'UsersProfile'
+    SearchJobsData: 'JobsData'
+    SearchJobsDataID: 'JobsData'
   }
-  Users: { // field return type name
+  UsersProfile: { // field return type name
     email: 'String'
+    id: 'ID'
     name: 'String'
-    wallet: 'ID'
+    wallet: 'String'
   }
 }
 
 export interface NexusGenArgTypes {
   Mutation: {
-    CreateUser: { // args
-      wallet: string; // String!
+    ConfirmJob: { // args
+      id: string; // String!
     }
-    UpdateUser: { // args
-      email?: string | null; // String
-      name: string; // String!
+    CreateJobsData: { // args
+      input: NexusGenInputs['JobsDataInput']; // JobsDataInput!
+    }
+    CreateUserByWallet: { // args
       wallet: string; // String!
     }
   }
   Query: {
+    GetUserByID: { // args
+      id: string; // String!
+    }
     GetUserByWallet: { // args
       wallet: string; // String!
+    }
+    SearchJobsData: { // args
+      query?: string | null; // String
+    }
+    SearchJobsDataID: { // args
+      id: string; // String!
     }
   }
 }
@@ -119,9 +223,9 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
-export type NexusGenEnumNames = never;
+export type NexusGenEnumNames = keyof NexusGenEnums;
 
 export type NexusGenInterfaceNames = never;
 
