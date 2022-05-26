@@ -4,16 +4,16 @@ import { useRouter } from "next/router";
 
 const pages = [
   {
-    title: "My Collections",
-    url: "/collection",
+    title: "Jobs Listing",
+    url: "/jobs",
   },
   {
-    title: "My Profile",
+    title: "My Jobs",
+    url: "/jobs/my",
+  },
+  {
+    title: "Profile",
     url: "/profile",
-  },
-  {
-    title: "Create",
-    url: "/create",
   },
   {
     title: "Statistic",

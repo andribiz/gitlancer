@@ -9,13 +9,13 @@ import SnackbarProvider from "../components/SnackBarProvider";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
+      <SnackbarProvider>
         <WalletProvider>
-          <SnackbarProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </SnackbarProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </WalletProvider>
+      </SnackbarProvider>
     </ApolloProvider>
   );
 }
