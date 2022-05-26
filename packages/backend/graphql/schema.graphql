@@ -66,6 +66,7 @@ type Mutation {
   ConfirmJob(id: String!): JobsData!
   CreateJobsData(input: JobsDataInput!): JobsData!
   CreateUserByWallet(wallet: String!): UsersProfile!
+  UpdateUserProfile(id: String!, input: UsersProfileInput!): UsersProfile
 }
 
 type Query {
@@ -83,4 +84,9 @@ type UsersProfile {
   id: ID!
   name: String
   wallet: String!
+}
+
+input UsersProfileInput {
+  email: String
+  name: String
 }

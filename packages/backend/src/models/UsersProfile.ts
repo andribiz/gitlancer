@@ -1,5 +1,4 @@
 import { Prisma } from "@prisma/client";
-import { id } from "ethers/lib/utils";
 import {
   objectType,
   extendType,

@@ -5,7 +5,9 @@ import { context } from "./context";
 
 import { schema } from "./schema";
 
-export const startServer = async (portNumber: number | undefined | null) => {
+export const startServer = async (
+  portNumber: number | string | undefined | null
+) => {
   const server = new ApolloServer({
     schema,
     context,

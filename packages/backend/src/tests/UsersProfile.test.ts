@@ -1,4 +1,3 @@
-import { ApolloServer } from "apollo-server-express";
 import { expect } from "chai";
 import { gql, GraphQLClient } from "graphql-request";
 

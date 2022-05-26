@@ -7,10 +7,9 @@ import { startServer } from "../server";
 
 export const mochaHooks = {
   async beforeAll() {
-    console.log("Masuk satu");
-    await startServer(8080);
+    console.log("Using database test: ", process.env.DATABASE_URL);
 
-    process.env.DATABASE_URL = process.env.DATABASE_URL_TEST;
+    await startServer(8080);
 
     const prismaBinary = join(
       __dirname,
@@ -19,11 +18,11 @@ export const mochaHooks = {
       ".bin",
       "prisma"
     );
-
+    console.log("Creating Database Test");
     execSync(`${prismaBinary} db push --preview-feature`);
   },
   async afterAll() {
-    // console.log("Delete satu");
-    await prisma.$executeRaw`drop schema test cascade`;
+    console.log("Drop Database Test");
+    // await prisma.$executeRaw`drop schema test cascade`;
   },
 };
