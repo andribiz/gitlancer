@@ -1,0 +1,7 @@
+mutation createUserByWallet($wallet: String!) {
+  CreateUserByWallet(wallet: $wallet) {
+    id
+    name
+    wallet
+  }
+}
