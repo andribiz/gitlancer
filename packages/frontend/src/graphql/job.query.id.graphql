@@ -1,0 +1,15 @@
+query getJobsDataByID($id: String!) {
+  GetJobsDataID(id: $id) {
+    id
+    title
+    body
+    biddingType
+    createdAt
+    creator {
+      id
+      wallet
+    }
+    state
+    price
+  }
+}

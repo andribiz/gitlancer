@@ -1,0 +1,15 @@
+mutation CreateJobsData($input: JobsDataInput!) {
+  CreateJobsData(input: $input) {
+    id
+    title
+    body
+    biddingType
+    createdAt
+    creator {
+      id
+      wallet
+    }
+    state
+    price
+  }
+}

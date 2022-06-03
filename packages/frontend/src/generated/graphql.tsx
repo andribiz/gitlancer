@@ -142,6 +142,20 @@ export type UsersProfileInput = {
   name?: InputMaybe<Scalars['String']>;
 };
 
+export type CreateJobsDataMutationVariables = Exact<{
+  input: JobsDataInput;
+}>;
+
+
+export type CreateJobsDataMutation = { __typename?: 'Mutation', CreateJobsData: { __typename?: 'JobsData', id: string, title: string, body: string, biddingType: BiddingType, createdAt: any, state: JobState, price: number, creator: { __typename?: 'UsersProfile', id: string, wallet: string } } };
+
+export type GetJobsDataByIdQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type GetJobsDataByIdQuery = { __typename?: 'Query', GetJobsDataID?: { __typename?: 'JobsData', id: string, title: string, body: string, biddingType: BiddingType, createdAt: any, state: JobState, price: number, creator: { __typename?: 'UsersProfile', id: string, wallet: string } } | null };
+
 export type CreateUserByWalletMutationVariables = Exact<{
   wallet: Scalars['String'];
 }>;
@@ -172,6 +186,94 @@ export type UpdateUserProfileMutationVariables = Exact<{
 export type UpdateUserProfileMutation = { __typename?: 'Mutation', UpdateUserProfile?: { __typename?: 'UsersProfile', id: string, name?: string | null, wallet: string } | null };
 
 
+export const CreateJobsDataDocument = gql`
+    mutation CreateJobsData($input: JobsDataInput!) {
+  CreateJobsData(input: $input) {
+    id
+    title
+    body
+    biddingType
+    createdAt
+    creator {
+      id
+      wallet
+    }
+    state
+    price
+  }
+}
+    `;
+export type CreateJobsDataMutationFn = Apollo.MutationFunction<CreateJobsDataMutation, CreateJobsDataMutationVariables>;
+
+/**
+ * __useCreateJobsDataMutation__
+ *
+ * To run a mutation, you first call `useCreateJobsDataMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateJobsDataMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createJobsDataMutation, { data, loading, error }] = useCreateJobsDataMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateJobsDataMutation(baseOptions?: Apollo.MutationHookOptions<CreateJobsDataMutation, CreateJobsDataMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateJobsDataMutation, CreateJobsDataMutationVariables>(CreateJobsDataDocument, options);
+      }
+export type CreateJobsDataMutationHookResult = ReturnType<typeof useCreateJobsDataMutation>;
+export type CreateJobsDataMutationResult = Apollo.MutationResult<CreateJobsDataMutation>;
+export type CreateJobsDataMutationOptions = Apollo.BaseMutationOptions<CreateJobsDataMutation, CreateJobsDataMutationVariables>;
+export const GetJobsDataByIdDocument = gql`
+    query getJobsDataByID($id: String!) {
+  GetJobsDataID(id: $id) {
+    id
+    title
+    body
+    biddingType
+    createdAt
+    creator {
+      id
+      wallet
+    }
+    state
+    price
+  }
+}
+    `;
+
+/**
+ * __useGetJobsDataByIdQuery__
+ *
+ * To run a query within a React component, call `useGetJobsDataByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetJobsDataByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetJobsDataByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetJobsDataByIdQuery(baseOptions: Apollo.QueryHookOptions<GetJobsDataByIdQuery, GetJobsDataByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetJobsDataByIdQuery, GetJobsDataByIdQueryVariables>(GetJobsDataByIdDocument, options);
+      }
+export function useGetJobsDataByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetJobsDataByIdQuery, GetJobsDataByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetJobsDataByIdQuery, GetJobsDataByIdQueryVariables>(GetJobsDataByIdDocument, options);
+        }
+export type GetJobsDataByIdQueryHookResult = ReturnType<typeof useGetJobsDataByIdQuery>;
+export type GetJobsDataByIdLazyQueryHookResult = ReturnType<typeof useGetJobsDataByIdLazyQuery>;
+export type GetJobsDataByIdQueryResult = Apollo.QueryResult<GetJobsDataByIdQuery, GetJobsDataByIdQueryVariables>;
 export const CreateUserByWalletDocument = gql`
     mutation createUserByWallet($wallet: String!) {
   CreateUserByWallet(wallet: $wallet) {
