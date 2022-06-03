@@ -7,44 +7,22 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 import Head from "next/head";
 import { useSnackbar } from "../components/SnackBarProvider";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormProfile from "../containers/FormProfile";
 import { useWalletProvider } from "../contexts/wallet.provider";
+import { usePageInfoProvider } from "../containers/Layout";
+import withMustLogin from "../components/WithLogin";
 
 const ProfilePage = () => {
-  const snackbar = useSnackbar();
-  const [loading, setLoading] = useState<boolean>(false);
+  const { setTitle, setDescription } = usePageInfoProvider();
 
-  const { provider, user } = useWalletProvider();
-
-  if (!provider || !user) {
-    return (
-      <Container>
-        <Head>
-          <title>Gitlancer | Geek Profiles</title>
-          <meta name="description" content="Create your NFT " />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <Typography variant="h4">
-          Please Login through metamask first
-        </Typography>
-      </Container>
-    );
-  }
+  useEffect(() => {
+    setTitle("Gitlancer | Geek Profile");
+    setDescription("Your geeky profile");
+  }, [setDescription, setTitle]);
 
   return (
     <Container>
-      <Head>
-        <title>Gitlancer | Geek Profiles</title>
-        <meta name="description" content="Create your NFT " />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={loading}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
       <Box sx={{ paddingBottom: "40px" }}>
         <Typography variant="h3">Geek Profile</Typography>
       </Box>
@@ -57,4 +35,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default withMustLogin(ProfilePage);
